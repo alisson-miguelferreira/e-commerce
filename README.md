@@ -11,7 +11,7 @@ Página Inicial<img src="./assets/e-commerce preview tela 1.png" alt= ecommerce 
 
 Produtos <img src="./assets/e-commerce preview products.png" alt= produtos>
 
-🔗 [Veja o projeto funcionando](ttps://alisson-miguelferreira.github.io/e-commerce/)
+🔗 [Veja o projeto funcionando](https://alisson-miguelferreira.github.io/e-commerce/)
 
 ---
 
