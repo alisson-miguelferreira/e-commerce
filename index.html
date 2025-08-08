@@ -21,7 +21,7 @@
         </div>
         <!-- Barra de pesquisa -->
         <div class="search-container">
-            <input type="text" placeholder="Pesquisar produtos...">
+            <input type="text" placeholder="Pesquisar produtos..." class="search-input">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </header>
@@ -29,12 +29,12 @@
     <!-- MENU DE NAVEGAÇÃO / CATEGORIAS -->
     <div class="categories-container">
         <nav class="categories-bar">
-            <button class="category-btn active"><i class="fa-solid fa-border-all"></i> Todos</button>
-            <button class="category-btn"><i class="fa-solid fa-mobile-screen-button"></i> Smartphones</button>
-            <button class="category-btn"><i class="fa-solid fa-laptop"></i> Notebooks</button>
-            <button class="category-btn"><i class="fa-solid fa-headphones"></i> Fones</button>
-            <button class="category-btn"><i class="fa-solid fa-keyboard"></i> Acessórios</button>
-            <button class="category-btn"><i class="fa-solid fa-clock"></i> Smartwatches</button>
+            <button class="category-btn active" data-category="all">Todos</button>
+            <button class="category-btn" data-category="smartphones">Smartphones</button>
+            <button class="category-btn" data-category="laptops">Laptops</button>
+            <button class="category-btn" data-category="headphones">Fones</button>
+            <button class="category-btn" data-category="accessories">Acessórios</button>
+            <button class="category-btn" data-category="smartwatches">Smartwatches</button>
         </nav>
     </div>
 
@@ -46,7 +46,7 @@
     <!-- Como produtos em destaque, carrossel de banners, etc. -->
     <main class="products">
         <div class="products-container">
-      
+
         </div>
 
     </main>

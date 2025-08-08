@@ -1,3 +1,5 @@
+let textoPesquisa = '';
+
 let produtos = [
     {
         id: 1,
@@ -42,7 +44,7 @@ let produtos = [
     {
         id: 5,
         nome: "Apple Watch Series 9",
-        categoria: "smartwatch",
+        categoria: "smartwatches", // <-- altere para plural
         preco: 3299,
         precoOriginal: 3799,
         desconto: 13,
@@ -92,27 +94,92 @@ let produtos = [
 ];
 
 let containerProdutos = document.querySelector(".products-container");
+let searchInput = document.querySelector(".search-input");
+let categoriaAtual = "all";
 
-function mostrarProdutos() {
-    let htmlProdutos = ""
-
-    produtos.forEach(prd => {
-        htmlProdutos = htmlProdutos + `
-            <div class="product-card">
-                <img class="product-img" src="${prd.imagem}" alt="${prd.nome}">
-                <div class="product-info">
-                    <h3 class="product-name">${prd.nome}</h3>
-                    <p class="product-price">R$ ${(prd.preco + 0.90).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-                    <p class="product-description">${prd.descricao}</p>
-                    <button class="product-button">Adicionar ao Carrinho</button>
-                </div>
-            </div>
-        `
-    })
-
-    containerProdutos.innerHTML = htmlProdutos;
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, ""); // remove acentos
 }
 
-window.onload = mostrarProdutos
+function mostrarProdutos() {
+    // Adiciona fade-out
+    containerProdutos.classList.add('fade');
+    setTimeout(() => {
+        let htmlProdutos = "";
 
-document.querySelector('.product-img[alt="Sony WH-1000XM5"]').style.objectPosition = "center center";
+        let termo = normalizarTexto(textoPesquisa);
+
+        let produtosFiltrados = produtos.filter(prd => {
+            let nome = normalizarTexto(prd.nome);
+            let descricao = normalizarTexto(prd.descricao);
+            return (
+                (nome.includes(termo) || descricao.includes(termo)) &&
+                (categoriaAtual === "all" || prd.categoria === categoriaAtual)
+            );
+        });
+
+        produtosFiltrados.forEach(prd => {
+            htmlProdutos += `
+                <div class="product-card">
+                    <img class="product-img" src="${prd.imagem}" alt="${prd.nome}">
+                    <div class="product-info">
+                        <h3 class="product-name">${prd.nome}</h3>
+                        <p class="product-price">R$ ${(prd.preco + 0.90).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                        <p class="product-description">${prd.descricao}</p>
+                        <button class="product-button">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        containerProdutos.innerHTML = htmlProdutos;
+
+        // Remove fade-in
+        containerProdutos.classList.remove('fade');
+
+        // Centraliza a imagem do Sony se ela existir
+        const sonyImg = document.querySelector('.product-img[alt="Sony WH-1000XM5"]');
+        if (sonyImg) sonyImg.style.objectPosition = "center center";
+    }, 200); // tempo menor que o transition para suavidade
+}
+
+function pesquisar() {
+    textoPesquisa = searchInput.value.toLowerCase();
+    mostrarProdutos();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    mostrarProdutos();
+    searchInput.addEventListener('input', pesquisar);
+
+    // Seleciona todos os botões de categoria
+    const categoryBtns = document.querySelectorAll('.category-btn');
+
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove a classe active de todos
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            // Adiciona a classe active ao botão clicado
+            this.classList.add('active');
+            // Atualiza a categoria atual
+            categoriaAtual = this.getAttribute('data-category');
+            // Atualiza os produtos exibidos
+            mostrarProdutos();
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
